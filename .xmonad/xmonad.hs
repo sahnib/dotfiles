@@ -4,6 +4,7 @@ import qualified Data.Map        as M
 import XMonad.Hooks.ManageDocks
 import Graphics.X11.ExtraTypes.XF86
 import XMonad.Actions.CycleWS
+import qualified XMonad.Hooks.DynamicBars as Bars
 import System.Exit
 import XMonad.Hooks.DynamicLog
 import XMonad.Util.Run(spawnPipe)
@@ -11,17 +12,16 @@ import XMonad.Layout.NoBorders
 import System.IO
 
 main = do
-  xmproc <- spawnPipe "xmobar"
   xmonad $ defaultConfig {
     workspaces = myWorkspaces
   , layoutHook = myLayoutHook
   , manageHook = manageDocks <+> manageHook defaultConfig
-  , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
-  , logHook = dynamicLogWithPP xmobarPP
-              { ppOutput = hPutStrLn xmproc }
+  , handleEventHook = handleEventHook defaultConfig <+> docksEventHook <+> Bars.dynStatusBarEventHook barCreator barDestroyer
+  , logHook = Bars.multiPP xmobarPP xmobarPP
   , modMask = mod4Mask
   , terminal = myTerminal
   , keys = myKeys
+  , startupHook = Bars.dynStatusBarStartup barCreator barDestroyer
   }
 
 myTerminal :: String
@@ -101,7 +101,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
     -- lock screen
-    , ((modm .|. shiftMask, xK_l     ),  spawn "gnome-screensaver-command -l")
+    , ((modm .|. shiftMask, xK_l     ),  spawn "xscreensaver-command --lock")
 
     -- Restart xmonad
     , ((modm              , xK_q     ), restart "xmonad" True)
@@ -156,3 +156,9 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
+
+barCreator :: Bars.DynamicStatusBar
+barCreator (XMonad.S sid) = spawnPipe $ "xmobar --screen " ++ show sid
+
+barDestroyer :: Bars.DynamicStatusBarCleanup
+barDestroyer = return ()
