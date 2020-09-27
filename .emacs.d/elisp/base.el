@@ -1,7 +1,6 @@
 (package-initialize)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -10,9 +9,11 @@
   (package-install 'use-package))
 (require 'use-package)
 
-;; set font
 (add-to-list 'default-frame-alist
-	     '(font . "DejaVu Sans Mono-12"))
+                       '(font . "Hack-13"))
+
+
+;; :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
 
 (defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir (format "%s/cache" private-dir)
@@ -52,11 +53,14 @@
       x-select-enable-clipboard          t
       use-package-always-ensure          t)
 
-;; Bookmarks
-(setq
- ;; persistent bookmarks
- bookmark-save-flag                      t
- bookmark-default-file              (concat temp-dir "/bookmarks"))
+;; Disable toolbar & menubar
+(menu-bar-mode -1)
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+(when (  fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+
+(show-paren-mode 1)
 
 ;; Backups enabled, use nil to disable
 (setq
@@ -76,17 +80,14 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 
-;; Disable toolbar & menubar
-(menu-bar-mode -1)
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(when (  fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
-
-(show-paren-mode 1)
-
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(global-visual-line-mode t)
+
+(setq-default cursor-type 'bar) 
+
+(global-linum-mode t)
 
 (provide 'base)
 ;;; base ends here

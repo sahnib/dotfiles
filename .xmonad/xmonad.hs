@@ -25,7 +25,7 @@ main = do
   }
 
 myTerminal :: String
-myTerminal = "gnome-terminal"
+myTerminal = "terminator"
 
 myLayoutHook = smartBorders $ avoidStruts  $  layoutHook defaultConfig
 
