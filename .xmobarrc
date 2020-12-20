@@ -1,7 +1,7 @@
 -- xmobar config used by Bhuwan Sahni
 -- Author: Bhuwan Sahni
 Config {
-       font = "xft:inconsolata:pixelsize=16",
+       font = "xft:inconsolata:pixelsize=22",
        bgColor = "black",
        fgColor = "white",
        -- Align left and leave space for stalonetray.

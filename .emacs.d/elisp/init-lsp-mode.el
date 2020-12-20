@@ -8,15 +8,15 @@
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode)
+  :config
+  (setq lsp-ui-sideline-ignore-duplicate t)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
-(use-package company
-  :ensure t
-  :config
-  ;; Optionally enable completion-as-you-type behavior.
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+(setq company-lsp-cache-candidates t)
+
+;; make sure we have lsp-imenu everywhere we have LSP
+(add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
 
 (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language

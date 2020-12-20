@@ -85,9 +85,11 @@
 
 (global-visual-line-mode t)
 
-(setq-default cursor-type 'bar) 
-
+;; (setq-default cursor-type 'bar) 
 (global-linum-mode t)
+
+;; stop cl warnings for elpa packages
+(setq byte-complile-warnings '(not cl-functions))
 
 (provide 'base)
 ;;; base ends here
