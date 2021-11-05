@@ -9,14 +9,21 @@ import System.Exit
 import XMonad.Hooks.DynamicLog
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Layout.NoBorders
+import XMonad.Hooks.EwmhDesktops
+import XMonad
+import XMonad.Config.Gnome
+import XMonad.Util.EZConfig
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.ManageDocks
+import XMonad.Layout.NoBorders
 import System.IO
 
 main = do
-  xmonad $ defaultConfig {
+  xmonad $ ewmhFullscreen $ ewmh $ def {
     workspaces = myWorkspaces
   , layoutHook = myLayoutHook
-  , manageHook = manageDocks <+> manageHook defaultConfig
-  , handleEventHook = handleEventHook defaultConfig <+> docksEventHook <+> Bars.dynStatusBarEventHook barCreator barDestroyer
+  , manageHook = myManageHook <+> manageHook def
+  , handleEventHook = handleEventHook def <+> docksEventHook <+> Bars.dynStatusBarEventHook barCreator barDestroyer <+> fullscreenEventHook
   , logHook = Bars.multiPP xmobarPP xmobarPP
   , modMask = mod4Mask
   , terminal = myTerminal
@@ -27,7 +34,12 @@ main = do
 myTerminal :: String
 myTerminal = "terminator"
 
-myLayoutHook = smartBorders $ avoidStruts  $  layoutHook defaultConfig
+myLayoutHook = smartBorders $ avoidStruts $ layoutHook def
+
+myManageHook = composeAll
+        [ className =? "hl2_linux" --> doFullFloat
+        , manageDocks
+        ]
 
 myWorkspaces :: [String]
 myWorkspaces =
@@ -38,11 +50,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
-    -- launch dmenu
+    -- launch rofi
     , ((modm,               xK_p     ), spawn "rofi -show run")
-
-    -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -65,10 +74,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Move focus to the previous window
     , ((modm,               xK_k     ), windows W.focusUp  )
 
-    -- Move focus to the master window
+    -- Move focus to the main window
     , ((modm,               xK_m     ), windows W.focusMaster  )
 
-    -- Swap the focused window and the master window
+    -- Swap the focused window and the main window
     , ((modm,               xK_Return), windows W.swapMaster)
 
     -- Swap the focused window with the next window
@@ -77,10 +86,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Swap the focused window with the previous window
     , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
 
-    -- Shrink the master area
+    -- Shrink the main area
     , ((modm,               xK_h     ), sendMessage Shrink)
 
-    -- Expand the master area
+    -- Expand the main area
     , ((modm,               xK_l     ), sendMessage Expand)
 
     -- Push window back into tiling

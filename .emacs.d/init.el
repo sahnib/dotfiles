@@ -4,11 +4,16 @@
 (require 'base-theme)
 (require 'base-extensions)
 
+(require 'init-org)
 (require 'init-lsp-mode)
+
 (require 'init-golang)
+(require 'init-java)
+(require 'init-cpp)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-haskell)
+(require 'init-docker)
+(require 'init-rust)
 
-(require 'init-org)
 (require 'init-leetcode)

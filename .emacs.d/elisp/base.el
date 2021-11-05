@@ -10,10 +10,7 @@
 (require 'use-package)
 
 (add-to-list 'default-frame-alist
-                       '(font . "Hack-13"))
-
-
-;; :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+                       '(font . "Monaco-12"))
 
 (defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir (format "%s/cache" private-dir)
@@ -85,7 +82,9 @@
 
 (global-visual-line-mode t)
 
-;; (setq-default cursor-type 'bar) 
+(setq-default cursor-type 'bar)
+(set-cursor-color "#ffffff")
+
 (global-linum-mode t)
 
 ;; stop cl warnings for elpa packages

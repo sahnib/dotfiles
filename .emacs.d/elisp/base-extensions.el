@@ -88,4 +88,10 @@
 
 (setq-default ediff-forward-word-function 'forward-char)
 
+(use-package all-the-icons)
+
+(use-package csv-mode)
+
+(setq smerge-command-prefix "\C-cv")
+
 (provide 'base-extensions)
