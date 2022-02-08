@@ -1,45 +1,38 @@
 import XMonad
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.EwmhDesktops
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Hooks.ManageDocks
 import Graphics.X11.ExtraTypes.XF86
 import XMonad.Actions.CycleWS
-import qualified XMonad.Hooks.DynamicBars as Bars
 import System.Exit
 import XMonad.Hooks.DynamicLog
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Layout.NoBorders
-import XMonad.Hooks.EwmhDesktops
-import XMonad
-import XMonad.Config.Gnome
-import XMonad.Util.EZConfig
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.ManageDocks
-import XMonad.Layout.NoBorders
 import System.IO
+import XMonad.Util.Loggers
 
-main = do
-  xmonad $ ewmhFullscreen $ ewmh $ def {
+main = xmonad
+     . ewmhFullscreen
+     . ewmh
+     . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
+     $ myConfig
+
+myConfig = def {
     workspaces = myWorkspaces
   , layoutHook = myLayoutHook
-  , manageHook = myManageHook <+> manageHook def
-  , handleEventHook = handleEventHook def <+> docksEventHook <+> Bars.dynStatusBarEventHook barCreator barDestroyer <+> fullscreenEventHook
-  , logHook = Bars.multiPP xmobarPP xmobarPP
   , modMask = mod4Mask
   , terminal = myTerminal
   , keys = myKeys
-  , startupHook = Bars.dynStatusBarStartup barCreator barDestroyer
   }
 
 myTerminal :: String
-myTerminal = "terminator"
+myTerminal = "alacritty"
 
 myLayoutHook = smartBorders $ avoidStruts $ layoutHook def
-
-myManageHook = composeAll
-        [ className =? "hl2_linux" --> doFullFloat
-        , manageDocks
-        ]
 
 myWorkspaces :: [String]
 myWorkspaces =
@@ -101,11 +94,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Deincrement the number of windows in the master area
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
 
---    , ((modm .|. shiftMask, xK_u), captureWorkspacesWhen defaultPredicate defaultHook horizontally)
-
-    -- toggle the status bar gap (used with avoidStruts from Hooks.ManageDocks)
-    -- , ((modm , xK_b ), sendMessage ToggleStruts)
-
     -- Quit Xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
@@ -166,8 +154,31 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-barCreator :: Bars.DynamicStatusBar
-barCreator (XMonad.S sid) = spawnPipe $ "xmobar --screen " ++ show sid
 
-barDestroyer :: Bars.DynamicStatusBarCleanup
-barDestroyer = return ()
+myXmobarPP :: PP
+myXmobarPP = def
+    { ppSep             = magenta " • "
+    , ppTitleSanitize   = xmobarStrip
+    , ppCurrent         = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
+    , ppHidden          = white . wrap " " ""
+    , ppHiddenNoWindows = lowWhite . wrap " " ""
+    , ppUrgent          = red . wrap (yellow "!") (yellow "!")
+    , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
+    , ppExtras          = [logTitles formatFocused formatUnfocused]
+    }
+  where
+    formatFocused   = wrap (white    "[") (white    "]") . magenta . ppWindow
+    formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . blue    . ppWindow
+
+    -- | Windows should have *some* title, which should not not exceed a
+    -- sane length.
+    ppWindow :: String -> String
+    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 30
+
+    blue, lowWhite, magenta, red, white, yellow :: String -> String
+    magenta  = xmobarColor "#ff79c6" ""
+    blue     = xmobarColor "#bd93f9" ""
+    white    = xmobarColor "#f8f8f2" ""
+    yellow   = xmobarColor "#f1fa8c" ""
+    red      = xmobarColor "#ff5555" ""
+    lowWhite = xmobarColor "#bbbbbb" ""

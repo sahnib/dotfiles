@@ -8,8 +8,8 @@
 (require 'init-lsp-mode)
 
 (require 'init-golang)
-(require 'init-java)
 (require 'init-cpp)
+(require 'init-java)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-haskell)

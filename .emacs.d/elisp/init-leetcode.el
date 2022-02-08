@@ -5,6 +5,6 @@
 (setq leetcode-prefer-sql "mysql")
 
 (setq leetcode-save-solutions t)
-(setq leetcode-directory "~/workspace/learning/leetcode")
+(setq leetcode-directory "~/workspace/leetcode/java")
 
 (provide 'init-leetcode)

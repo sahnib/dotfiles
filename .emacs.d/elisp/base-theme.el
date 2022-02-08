@@ -1,5 +1,7 @@
 ;; Load theme
 
-(load-theme 'tango-dark t)
+(use-package afternoon-theme
+  :ensure t)
+(load-theme 'afternoon t)
 
 (provide 'base-theme)

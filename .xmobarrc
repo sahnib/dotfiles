@@ -1,16 +1,16 @@
 -- xmobar config used by Bhuwan Sahni
 -- Author: Bhuwan Sahni
 Config {
-       font = "xft:inconsolata:pixelsize=22",
-       bgColor = "black",
-       fgColor = "white",
+       font = "xft:SourceCodePro:pixelsize=32",
+       bgColor  = "#3f3f3f",
+       fgColor  = "#f8f8f2",
        -- Align left and leave space for stalonetray.
        position = TopW L 100,
        commands = [
+       	        Run XMonadLog,
                 Run MultiCpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
                 Run Memory ["-t","Mem: <usedratio>%"] 10,
                 Run Date "%a %b %_d %H:%M" "date" 10,
-                Run StdinReader,
 		Run BatteryP ["BAT0"]
                     	     [ "-t", "<acstatus>"
                 	     , "-L", "10", "-H", "80"
@@ -20,5 +20,5 @@ Config {
                 ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %multicpu% | %memory% | %battery% | US: <fc=#ee9a00>%date%</fc>      "
+       , template = "%XMonadLog% }{ %multicpu% | %memory% | %battery% | US: <fc=#ee9a00>%date%</fc>      "
        }
