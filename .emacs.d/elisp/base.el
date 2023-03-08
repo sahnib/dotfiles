@@ -7,19 +7,15 @@
     (setq package-native-compile t)
     ))
 
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(unless package-archive-contents   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
-
-(add-to-list 'default-frame-alist
-                       '(font . "SourceCodePro-14"))
 
 (defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir (format "%s/cache" private-dir)
@@ -56,8 +52,7 @@
       indent-tabs-mode                   nil
       inhibit-startup-message            t
       fringes-outside-margins            t
-      x-select-enable-clipboard          t
-      use-package-always-ensure          t)
+      x-select-enable-clipboard          t)
 
 ;; Disable toolbar & menubar
 (menu-bar-mode -1)
@@ -65,6 +60,8 @@
   (tool-bar-mode -1))
 (when (  fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
+
+(setq-default tab-width 4)
 
 (show-paren-mode 1)
 
@@ -94,7 +91,7 @@
 (setq-default cursor-type 'bar)
 (set-cursor-color "#ffffff")
 
-(global-linum-mode t)
+(global-display-line-numbers-mode)
 
 ;; stop cl warnings for elpa packages
 (setq byte-complile-warnings '(not cl-functions))

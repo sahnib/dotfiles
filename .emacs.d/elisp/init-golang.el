@@ -5,7 +5,8 @@
          (before-save . lsp-organize-imports))
   :bind (:map go-mode-map
               ("C-x t f" . go-test-current-file)
-              ("C-x t t" . go-test-current-test)))
+              ("C-x t t" . go-test-current-test))
+  :ensure t)
 
 (defun lsp-cannonical-file-name  (file-name)
   "Return the cannonical FILE-NAME."

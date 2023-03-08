@@ -10,9 +10,8 @@
 (require 'init-golang)
 (require 'init-cpp)
 (require 'init-java)
-(require 'init-javascript)
-(require 'init-python)
-(require 'init-haskell)
+;;(require 'init-python)
+;;(require 'init-haskell)
 (require 'init-docker)
 (require 'init-rust)
 

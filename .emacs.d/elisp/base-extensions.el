@@ -66,13 +66,16 @@
   ("C-x g e" . magit-ediff-resolve)
   ("C-x g r" . magit-rebase-interactive))
 
-(use-package magit-popup)
+(use-package magit-popup
+  :ensure t)
 
 (use-package which-key
+  :ensure
   :config
   (which-key-mode))
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :ensure t)
 
 ;; map suspend frame to C-z C-z to prevent emacs freezing
 (global-unset-key (kbd "C-z"))
@@ -88,10 +91,20 @@
 
 (setq-default ediff-forward-word-function 'forward-char)
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 
-(use-package csv-mode)
+(use-package csv-mode
+  :ensure t)
 
 (setq smerge-command-prefix "\C-cv")
+
+(use-package neotree
+  :ensure t)
+
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+(use-package darkroom
+  :ensure t)
 
 (provide 'base-extensions)

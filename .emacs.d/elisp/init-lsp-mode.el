@@ -27,7 +27,8 @@
 ;; make sure we have lsp-imenu everywhere we have LSP
 (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
 
-(use-package dap-mode)
+(use-package dap-mode
+  :ensure t)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 (use-package yasnippet
