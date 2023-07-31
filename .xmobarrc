@@ -1,11 +1,11 @@
 -- xmobar config used by Bhuwan Sahni
 -- Author: Bhuwan Sahni
 Config {
-       font = "xft:SourceCodePro:pixelsize=32",
+       font = "Source Code Pro 24",
        bgColor  = "#3f3f3f",
        fgColor  = "#f8f8f2",
        -- Align left and leave space for stalonetray.
-       position = TopW L 100,
+       position = TopH 38,
        commands = [
        	        Run XMonadLog,
                 Run MultiCpu ["-L","3","-H","50","--normal","green","--high","red"] 10,

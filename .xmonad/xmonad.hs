@@ -30,7 +30,7 @@ myConfig = def {
   }
 
 myTerminal :: String
-myTerminal = "alacritty"
+myTerminal = "terminator"
 
 myLayoutHook = smartBorders $ avoidStruts $ layoutHook def
 
