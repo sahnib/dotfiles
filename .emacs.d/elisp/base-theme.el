@@ -6,7 +6,7 @@
   (load-theme 'vscode-dark-plus t))
 
 (add-to-list 'default-frame-alist
-             '(font . "Source Code Pro 13"))
+             '(font . "Inconsolata 15"))
 
 ;; Remove the border around the TODO word on org-mode files
 (setq vscode-dark-plus-box-org-todo nil)

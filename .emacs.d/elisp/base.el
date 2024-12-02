@@ -96,5 +96,7 @@
 ;; stop cl warnings for elpa packages
 (setq byte-complile-warnings '(not cl-functions))
 
+(setq-default fill-column 120)
+
 (provide 'base)
 ;;; base ends here
