@@ -18,7 +18,7 @@ import XMonad.Util.Loggers
 main = xmonad
      . ewmhFullscreen
      . ewmh
-     . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
+     . withEasySB (statusBarProp "polybar" (pure myXmobarPP)) defToggleStrutsKey
      $ myConfig
 
 myConfig = def {
@@ -30,7 +30,7 @@ myConfig = def {
   }
 
 myTerminal :: String
-myTerminal = "terminator"
+myTerminal = "alacritty"
 
 myLayoutHook = smartBorders $ avoidStruts $ layoutHook def
 
@@ -105,9 +105,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- multimedia keys
 
-    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2-")
-    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2+")
-    , ((0, xF86XK_AudioMute          ), spawn "amixer set Master toggle")
+    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer -c 1 set Master 2-")
+    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer -c 1 set Master 2+")
+    , ((0, xF86XK_AudioMute          ), spawn "amixer -c 1 set Master toggle")
 
     , ((0, xF86XK_MonBrightnessUp ), spawn "xbacklight -inc 5")
     , ((0, xF86XK_MonBrightnessDown ), spawn "xbacklight -dec 5")
