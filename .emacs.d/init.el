@@ -8,4 +8,4 @@
 (require 'init-lsp-mode)
 
 (require 'init-rust)
-(require 'init-leetcode)
+

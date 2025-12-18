@@ -21,6 +21,8 @@
 (defconst temp-dir (format "%s/cache" private-dir)
   "Hostname-based elisp temp directories")
 
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+
 ;; Core settings
 ;; UTF-8 please
 (set-charset-priority 'unicode)
@@ -54,8 +56,8 @@
       fringes-outside-margins            t
       x-select-enable-clipboard          t)
 
-;; Disable toolbar & menubar
-(menu-bar-mode -1)
+
+(menu-bar-mode t)
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (when (  fboundp 'scroll-bar-mode)

@@ -69,9 +69,19 @@
 
 (setq smerge-command-prefix "\C-cv")
 
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-
 (use-package darkroom
   :ensure t)
+
+(use-package treemacs
+  :ensure t)
+
+(use-package protobuf-mode
+  :ensure t)
+
+(use-package exec-path-from-shell
+  :ensure t)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 (provide 'base-extensions)
